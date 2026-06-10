@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>국내 유산균 브랜드 경쟁사 분석</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic',Arial,sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:14px;line-height:1.6}
+.page{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+h1{font-size:22px;font-weight:600;margin-bottom:4px;color:#1a1a1a}
+.subtitle{font-size:13px;color:#888;margin-bottom:2rem}
+.section-title{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.08em;margin:2rem 0 .75rem}
+.section-title:first-of-type{margin-top:0}
+
+/* 전략 유형 */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:2rem}
+.type-card{background:#fff;border:1px solid #e8e8e4;border-radius:10px;padding:.8rem 1rem}
+.type-label{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;margin-bottom:.4rem;display:inline-block}
+.type-name{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.type-desc{font-size:11px;color:#888;line-height:1.4}
+.t-mass{background:#eaf3de;color:#3b6d11}
+.t-img{background:#e6f1fb;color:#185fa5}
+.t-premium{background:#eeedfe;color:#534ab7}
+.t-func{background:#faeeda;color:#854f0b}
+.t-expert{background:#faece7;color:#993c1d}
+.t-ip{background:#fbeaf0;color:#993556}
+.t-women{background:#e1f5ee;color:#0f6e56}
+
+/* 비교표 */
+.compare-wrap{overflow-x:auto;margin-bottom:2rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#f0eeea;font-weight:600;font-size:11px;color:#666;padding:8px 10px;text-align:left;border-bottom:2px solid #e0deda;white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid #f0eeea;vertical-align:top;line-height:1.5}
+tr:hover td{background:#fafaf8}
+.brand-name{font-weight:600;font-size:13px}
+.badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;white-space:nowrap;display:inline-block;margin-top:2px}
+.price-note{font-size:11px;color:#888}
+
+/* 브랜드 카드 */
+.brand-grid{display:grid;gap:1rem}
+.brand-card{background:#fff;border:1px solid #e8e8e4;border-radius:12px;padding:1.25rem}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;gap:8px}
+.card-no{font-size:11px;color:#aaa;font-weight:600}
+.card-title{font-size:16px;font-weight:600;color:#1a1a1a}
+.card-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px;white-space:nowrap}
+.card-body{display:grid;gap:10px}
+.item{border-left:2px solid #e8e8e4;padding-left:12px}
+.item-label{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.item-content{font-size:13px;color:#1a1a1a;line-height:1.6}
+.item-content ul{padding-left:1.1rem;list-style:disc}
+.item-content li{margin-bottom:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.risk{border-left-color:#e24b4a}
+.risk .item-label{color:#a32d2d}
+.search-wrap{display:flex;align-items:center;gap:8px;margin-top:4px}
+.s-label{font-size:11px;color:#888;min-width:32px}
+.bar-bg{flex:1;height:7px;background:#f0eeea;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.s-val{font-size:11px;color:#888;min-width:28px;text-align:right}
+.search-note{font-size:11px;color:#888;margin-top:4px;line-height:1.4}
+.divider{border:none;border-top:1px solid #e8e8e4;margin:1.5rem 0}
+
+/* 니치 */
+.niche-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.footnote{font-size:11px;color:#aaa;margin-top:.75rem;line-height:1.6}
+@media(max-width:640px){.two-col,.niche-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>국내 유산균 건강기능식품 — 경쟁사 분석</h1>
+<div class="subtitle">대상 브랜드 7개 + 니치 2개 · 검색량 기준: 네이버 데이터랩 2025.06~2026.06</div>
+
+<div class="section-title">전략 유형 분류</div>
+<div class="type-grid">
+  <div class="type-card"><span class="type-label t-mass">대중형</span><div class="type-name">락토핏</div><div class="type-desc">온가족 라인업 · 리테일 점유 · 대중 가격</div></div>
+  <div class="type-card"><span class="type-label t-img">이미지 프리미엄형</span><div class="type-name">덴프스</div><div class="type-desc">덴마크 수입 원료 · 실속 가격 · 프리미엄 인식</div></div>
+  <div class="type-card"><span class="type-label t-premium">고가 프리미엄형</span><div class="type-name">드시모네</div><div class="type-desc">고함량 보장균수 · 고가 구독 · 냉장배송</div></div>
+  <div class="type-card"><span class="type-label t-func">특수목적형</span><div class="type-name">비에날씬</div><div class="type-desc">다이어트 단일 기능 · 체지방 감소 유산균</div></div>
+  <div class="type-card"><span class="type-label t-expert">전문성 소구형</span><div class="type-name">피토틱스</div><div class="type-desc">약사 설계 · R&amp;D 근거 · D2C 리뷰 중심</div></div>
+  <div class="type-card"><span class="type-label t-ip">인물 IP형</span><div class="type-name">여에스더</div><div class="type-desc">의사+방송인 신뢰 · 전문가 설계 브랜드</div></div>
+  <div class="type-card"><span class="type-label t-women">여성 특화형</span><div class="type-name">라엘밸런스</div><div class="type-desc">생리대 브랜드 확장 · 질 건강 · 여성 D2C</div></div>
+</div>
+
+<div class="section-title">한눈에 비교</div>
+<div class="compare-wrap">
+<table>
+<thead><tr><th>브랜드</th><th>대표 상품 / 가격</th><th>핵심 소구점</th><th>주요 판매처</th><th>대표 성과</th><th>잠재 리스크</th></tr></thead>
+<tbody>
+<tr><td><div class="brand-name">락토핏</div><span class="badge t-mass">대중형</span></td><td>생유산균 골드<br><span class="price-note">50포 약 7,380원/월</span></td><td>온가족 맞춤 · 대중 가격 · 국민 유산균</td><td>올리브영 · 코스트코 · 온라인 전채널</td><td>단일 브랜드 매출 2,000억 돌파<br>7년 연속 구매율 1위</td><td>메시지 과다 확장 시 프리미엄 이미지 약화</td></tr>
+<tr><td><div class="brand-name">덴프스</div><span class="badge t-img">이미지 프리미엄</span></td><td>덴마크 유산균이야기 기본<br><span class="price-note">30정 약 15,000원 선</span></td><td>덴마크 원료 · 프리미엄 스탠다드 · 채널 확장</td><td>덴프스몰 · 올리브영 · 네이버 · 쿠팡</td><td>누적 1,500만개 · 올리브영 +205%<br>우먼 +479%</td><td>확장 SKU 서사 희석 · 프로모션 의존</td></tr>
+<tr><td><div class="brand-name">피토틱스</div><span class="badge t-expert">전문성 소구</span></td><td>피토틱스 옐로우<br><span class="price-note">30캡슐 약 19,000원/월</span></td><td>약사 설계 · 질유래 균주 · 3중 기능성</td><td>자사몰 · 네이버 스마트스토어 · 쿠팡</td><td>N리뷰 98,000건 · 출시 한달 완판<br>소비자만족지수 3년 연속 1위</td><td>대형 리테일 노출 약함 · ATL 부재</td></tr>
+<tr><td><div class="brand-name">드시모네</div><span class="badge t-premium">고가 프리미엄</span></td><td>드시모네 4500<br><span class="price-note">약 126,000원/월 추정</span></td><td>4,500억 보장균수 · 냉장배송 · 프리미엄 구독</td><td>자사몰 · 약국 · 마트/백화점</td><td>정기구독 1년 150% 증가<br>고가 프리미엄 포지션 확보</td><td>가격 장벽 높음 · 대중 유입 제한</td></tr>
+<tr><td><div class="brand-name">라엘밸런스</div><span class="badge t-women">여성 특화</span></td><td>질 건강 리스펙타 액티브<br><span class="price-note">1개월분 56,000원 (할인 44,800원)</span></td><td>생리대 브랜드 신뢰 · 질 건강 · 교차판매</td><td>라엘 공식몰 · 올리브베러 · 스마트스토어</td><td>건기식 2024 상반기 +690%<br>구독 고객 16% 교차구매</td><td>유산균 전문성 이미지 약함 · 초기 채널 단계</td></tr>
+<tr><td><div class="brand-name">비에날씬</div><span class="badge t-func">특수목적</span></td><td>비에날씬 슬림+<br><span class="price-note">약 65,000원/월 수준</span></td><td>국내 최초 다이어트 유산균 · 체지방 감소</td><td>비에날몰(자사몰) · 정기배송 · 면세점</td><td>누적 매출 약 1조원<br>누적 1,800만개 판매</td><td>다이어트 카테고리 경쟁 심화<br>유산균 정체성 약화 우려</td></tr>
+<tr><td><div class="brand-name">여에스더</div><span class="badge t-ip">인물 IP</span></td><td>여에스더 유산균 클래식<br><span class="price-note">2개월분 28,500원 (월 약 14,250원)</span></td><td>의사 설계 신뢰 · 누적 판매 · 기능별 확장</td><td>에스더몰 · 홈쇼핑 · 오픈마켓 · 라이브</td><td>누적 1,000만 병<br>에스더포뮬러 연매출 최대 3,235억</td><td>개인 IP 의존도 · 광고 표현 리스크<br>매출 감소 추세</td></tr>
+</tbody>
+</table>
+</div>
+
+<hr class="divider">
+<div class="section-title">브랜드별 상세 분석</div>
+<div class="brand-grid">
+
+<!-- 01 락토핏 -->
+<div class="brand-card">
+  <div class="card-header"><div><div class="card-no">01</div><div class="card-title">락토핏</div></div><span class="card-badge t-mass">대중형</span></div>
+  <div class="card-body">
+    <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">생유산균 골드 — 50포 분말 스틱 / 약 7,380원 (월 환산)<br><span style="font-size:12px;color:#888">골드·코어·키즈·베베·맘스·뷰티·슬림·당케어 등 14개 이상 라인 운영</span></div></div>
+    <div class="two-col">
+      <div class="item"><div class="item-label">마케팅 전략</div><div class="item-content"><ul><li>연령·목적별 맞춤 라인업 — 생애주기 전 세대 커버</li><li>TV CF + CM송 + 전속모델 조합</li><li>"대한민국 1등 유산균" 반복 소구</li><li>올리브영 어워즈, 명절 기획세트, 코스트코 대용량 SKU</li><li>LACTO-5X, 보장균수 2배 등 성분 신뢰 메시지 병행</li></ul></div></div>
+      <div class="item"><div class="item-label">주요 판매처</div><div class="item-content"><ul><li>올리브영 — 6년 연속 어워즈 수상</li><li>코스트코 — 2,000mg×200포 대용량 SKU 상시</li><li>네이버 브랜드스토어</li><li>종근당건강몰 (자사몰)</li></ul></div></div>
+    </div>
+    <div class="item"><div class="item-label">브랜드 성과 및 성장 지표</div><div class="item-content">단일 브랜드 매출 2,000억 돌파 · 2018~2024 7년 연속 프로바이오틱스 구매율 1위 · 브랜드평판 1위</div></div>
+    <div class="item risk"><div class="item-label">잠재 리스크 및 전략적 한계</div><div class="item-content">라인업 과다 확장 시 브랜드 메시지 희석 · 프리미엄·전문성 세그먼트 대응력 약화 · 대중형이라 가격 인상 어려움</div></div>
+    <div class="item">
+      <div class="item-label">네이버 검색량 (2025.06~2026.06, 상대지수)</div>
+      <div class="item-content">
+        <div class="search-wrap"><span class="s-label">평균</span><div class="bar-bg"><div class="bar-fill" style="width:72%;background:#639922"></div></div><span class="s-val">72.0</span></div>
+        <div class="search-wrap"><span class="s-label">최고</span><div class="bar-bg"><div class="bar-fill" style="width:100%;background:#c0dd97"></div></div><span class="s-val">100.0</span></div>
+        <p class="search-note">7개 브랜드 중 압도적 1위 — 유산균 카테고리 내 기준점 역할</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 덴프스 -->
+<div class="brand-card">
+  <div class="card-header"><div><div class="card-no">02</div><div class="card-title">덴프스 (덴마크 유산균이야기)</div></div><span class="card-badge t-img">이미지 프리미엄형</span></div>
+  <div class="card-body">
+    <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">덴마크 유산균이야기 기본 — 30정 / 약 15,000원 선<br><span style="font-size:12px;color:#888">프로(53,000원) · 플러스(46,500원) · 우먼(48,000~52,000원) · 다이어트 · 키즈(32,000원) · 덴티(25,000원)</span></div></div>
+    <div class="two-col">
+      <div class="item"><div class="item-label">마케팅 전략</div><div class="item-content"><ul><li>"덴마크 프리미엄 스탠다드" — 원산지 기원 서사 전면화</li><li>배우 공유 TV CF로 프리미엄 이미지 강화</li><li>올리브영 리테일 입점 + 올영픽 선정 반복</li><li>네이버 브랜드데이 (2025 기준 5회 선정)</li><li>세그먼트별 SKU 확장 — 우먼·다이어트·키즈·덴티</li><li>카카오프렌즈·포켓몬 협업 기획세트</li></ul></div></div>
+      <div class="item"><div class="item-label">주요 판매처</div><div class="item-content"><ul><li>덴프스몰 (자사몰) — D2C 허브, 정기배송 할인</li><li>올리브영 — 오프라인+온라인, 브랜드 스토어</li><li>네이버 공식몰 — 브랜드데이 집중 프로모션</li><li>쿠팡 — 브랜드샵, 월 1,000건 이상 구매</li><li>홈쇼핑 — 인접 카테고리 중심 선택적 활용</li></ul></div></div>
+    </div>
+    <div class="item"><div class="item-label">브랜드 성과 및 성장 지표</div><div class="item-content">누적 1,500만개 판매 (2013~2023) · 올리브영 입점 후 +205% 성장 (2025년 상반기) · 우먼 월평균 판매량 +479% · 모회사 에이치피오 2025년 연결 매출 2,581억</div></div>
+    <div class="item risk"><div class="item-label">잠재 리스크 및 전략적 한계</div><div class="item-content">확장 SKU 증가로 "덴마크 프리미엄" 서사 희석 가능성 · 덴티 등 일부 제품 건강기능식품 아님 · 행사/프로모션 의존 시 정가 구매 학습 약화 · 브랜드 단독 매출 미공개</div></div>
+    <div class="item">
+      <div class="item-label">네이버 검색량 (2025.06~2026.06, 상대지수)</div>
+      <div class="item-content">
+        <div class="search-wrap"><span class="s-label">평균</span><div class="bar-bg"><div class="bar-fill" style="width:7.4%;background:#185fa5"></div></div><span class="s-val">7.4</span></div>
+        <div class="search-wrap"><span class="s-label">최고</span><div class="bar-bg"><div class="bar-fill" style="width:14.5%;background:#b5d4f4"></div></div><span class="s-val">14.5</span></div>
+        <p class="search-note">검색량은 낮은 편 — 브랜드 인지보다 채널(올리브영·코스트코) 중심으로 발견되는 구조</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 피토틱스 -->
+<div class="brand-card">
+  <div class="card-header"><div><div class="card-no">03</div><div class="card-title">피토틱스</div></div><span class="card-badge t-expert">전문성 소구형</span></div>
+  <div class="card-body">
+    <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">피토틱스 옐로우 — 30캡슐(식물성) / 19,000원<br><span style="font-size:12px;color:#888">1/3/6/12개월 옵션형 판매 · 다박스 묶음 할인 구조 운영</span></div></div>
+    <div class="two-col">
+      <div class="item"><div class="item-label">마케팅 전략</div><div class="item-content"><ul><li>"약사가 설계하다" — 전문가 신뢰를 메인 소구점으로</li><li>질유래 특허균 + 3중 기능성(장·면역·항산화) 강조</li><li>검색 기반 D2C 마케팅 — 네이버·쿠팡 키워드 검색 유입을 구매 전환으로 연결하는 퍼포먼스 구조</li><li>네이버 리뷰 누적 98,000건 — 리뷰 자산을 검색 노출과 결합한 신뢰 루프 형성</li><li>쿠팡 랭킹 노출 + 후기형 콘텐츠로 사회적 증명</li><li>소비자만족지수 1위 등 수상 실적 홍보 활용</li></ul></div></div>
+      <div class="item"><div class="item-label">주요 판매처</div><div class="item-content"><ul><li>자사몰 — D2C 중심</li><li>네이버 브랜드스토어 — 리뷰 자산 핵심</li><li>쿠팡, SSG 등 이커머스</li><li>올리브영 브랜드스토어 (리뷰 약 4,900건)</li></ul></div></div>
+    </div>
+    <div class="item"><div class="item-label">브랜드 성과 및 성장 지표</div><div class="item-content">출시 한달 완판 · 네이버쇼핑 BEST100 인기브랜드 4위, 포우먼 1위 · N리뷰 98,000건 돌파 · 한국소비자만족지수 3년 연속 1위 · 조회수 1,443,000건</div></div>
+    <div class="item risk"><div class="item-label">잠재 리스크 및 전략적 한계</div><div class="item-content">대형 ATL 부재 — 검색·리뷰 트래픽 의존 구조 · 올리브영 등 오프라인 리테일 노출 약함 · 질 건강 기능성 인정 원료 사용 여부 불명확</div></div>
+    <div class="item"><div class="item-label">네이버 검색량</div><div class="item-content" style="color:#aaa;font-size:12px">데이터 미포함 (제공된 5개 브랜드에 해당 없음)</div></div>
+  </div>
+</div>
+
+<!-- 04 드시모네 -->
+<div class="brand-card">
+  <div class="card-header"><div><div class="card-no">04</div><div class="card-title">드시모네</div></div><span class="card-badge t-premium">고가 프리미엄형</span></div>
+  <div class="card-body">
+    <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">드시모네 4500 — 분말 스틱 30포 / 약 126,000원/월 (추정)<br><span style="font-size:12px;color:#888">정기구독 40% 할인 적용 가능 · 드시모네 365(캡슐형) · 키즈/베이비 라인 별도 운영</span></div></div>
+    <div class="two-col">
+      <div class="item"><div class="item-label">마케팅 전략</div><div class="item-content"><ul><li>"프리미엄의 기준" — 고함량 보장균수 4,500억 전면 소구</li><li>런칭 시 예산 80%를 초기 3개월에 집중 투입</li><li>TV CF 2편 + 브랜드송 + 디지털 광고 동시 집행</li><li>블로그 중심 인플루언서 집행 이력 — 콘텐츠 마케팅 기반 브랜드 신뢰 구축</li><li>정기구독 40% 혜택으로 구독 락인 구조 설계</li><li>매거진형 콘텐츠 + 전문가 채널 병행</li></ul></div></div>
+      <div class="item"><div class="item-label">주요 판매처</div><div class="item-content"><ul><li>드시모네몰 (자사몰) — 정기구독 D2C 중심</li><li>약국 — 전문성·신뢰 채널로 활용</li><li>대형마트·백화점 — 오프라인 프리미엄 채널</li></ul></div></div>
+    </div>
+    <div class="item"><div class="item-label">브랜드 성과 및 성장 지표</div><div class="item-content">정기구독 건수 1년 새 150% 증가 · 자사몰 리뷰 4,315건 · 신생 브랜드의 빠른 프리미엄 포지션 안착 대표 사례 · 고객당 LTV 높은 구독 구조 확보</div></div>
+    <div class="item risk"><div class="item-label">잠재 리스크 및 전략적 한계</div><div class="item-content">월 10만원 이상이라는 명확한 가격 장벽 · 대중 시장 유입 어려움 · 경기 둔화 시 구독 해지 리스크 · 브랜드 인지도가 고가 유산균 시장 내로 한정</div></div>
+    <div class="item">
+      <div class="item-label">네이버 검색량 (2025.06~2026.06, 상대지수)</div>
+      <div class="item-content">
+        <div class="search-wrap"><span class="s-label">평균</span><div class="bar-bg"><div class="bar-fill" style="width:40.3%;background:#534ab7"></div></div><span class="s-val">40.3</span></div>
+        <div class="search-wrap"><span class="s-label">최고</span><div class="bar-bg"><div class="bar-fill" style="width:91.4%;background:#afa9ec"></div></div><span class="s-val">91.4</span></div>
+        <p class="search-note">락토핏 다음으로 높은 검색량 — 프리미엄 브랜드 치고 인지도 강함. 일부 급등 구간은 TV CF 집행 시점으로 추정</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 라엘밸런스 -->
+<div class="brand-card">
+  <div class="card-header"><div><div class="card-no">05</div><div class="card-title">라엘밸런스</div></div><span class="card-badge t-women">여성 특화형</span></div>
+  <div class="card-body">
+    <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">질 건강 리스펙타 프로바이오틱스 액티브 — 1개월분 / 56,000원 (할인가 44,800원)<br><span style="font-size:12px;color:#888">2/4/6개월 묶음 구매 시 할인율 증가 · 정기구독 운영</span></div></div>
+    <div class="two-col">
+      <div class="item"><div class="item-label">마케팅 전략</div><div class="item-content"><ul><li>생리대 브랜드 신뢰 → 여성 건강기능식품으로 자연스러운 확장</li><li>리스펙타 프로바이오틱스 — 식약처 인정 질 건강 기능성 원료 전면화</li><li>유튜버 하말넘많 등 여성 선호 인플루언서 광고 활용 — 민감 카테고리에 공감형 UGC 채널 궁합 활용</li><li>자사몰 정기구독 고객 교차판매 (생리대→건기식)</li><li>올리브베러(올리브영 웰니스 플랫폼) 입점으로 채널 확장</li><li>산부인과 전문의 자문 활용으로 전문성 보완</li></ul></div></div>
+      <div class="item"><div class="item-label">주요 판매처</div><div class="item-content"><ul><li>라엘 공식몰 — D2C + 정기구독 핵심 채널</li><li>올리브베러 (CJ올리브영 웰니스 플랫폼)</li><li>네이버 스마트스토어</li></ul></div></div>
+    </div>
+    <div class="item"><div class="item-label">브랜드 성과 및 성장 지표</div><div class="item-content">건기식 라인 2024년 상반기 전년 동기 대비 +690% 성장 · 공식몰 정기구독 고객 중 16%가 건기식 교차구매 · 2022년 10월 라엘밸런스 론칭</div></div>
+    <div class="item risk"><div class="item-label">잠재 리스크 및 전략적 한계</div><div class="item-content">유산균 전문 브랜드 대비 균주 기술력 이미지 약함 · 채널 확장이 아직 초기 단계 · 여성 건강 카테고리 경쟁 브랜드 지속 증가 · 민감 카테고리 특성상 광고 소재 제약</div></div>
+    <div class="item"><div class="item-label">네이버 검색량</div><div class="item-content" style="color:#aaa;font-size:12px">데이터 미포함 (제공된 5개 브랜드에 해당 없음)</div></div>
+  </div>
+</div>
+
+<!-- 06 비에날씬 -->
+<div class="brand-card">
+  <div class="card-header"><div><div class="card-no">06</div><div class="card-title">비에날씬</div></div><span class="card-badge t-func">특수목적형</span></div>
+  <div class="card-body">
+    <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">BNR17 다이어트유산균 비에날씬 / 비에날씬 프로 — 약 65,000원/월 수준<br><span style="font-size:12px;color:#888">정기배송 최대 10% 할인 · 타임딜·주말쿠폰·라이브 이벤트 상시 운영</span></div></div>
+    <div class="two-col">
+      <div class="item"><div class="item-label">마케팅 전략</div><div class="item-content"><ul><li>"국내 최초 다이어트 유산균" — 체지방 감소 개별인정형 단일 메시지</li><li>배우 김희선 전속모델 TV CF 집행</li><li>자사몰 D2C + 정기배송 구독 전환 중심 운영</li><li>면세점·기내면세점 입점으로 프리미엄 이미지 보완</li><li>CSV "날씬기부" 4회차 장기 캠페인 운영</li></ul></div></div>
+      <div class="item"><div class="item-label">주요 판매처</div><div class="item-content"><ul><li>비에날몰 (자사몰) — 정기배송 D2C 핵심</li><li>네이버 마일리지 연동 운영</li><li>면세점·기내면세점</li><li>온라인 커머스 (쿠팡 등)</li></ul></div></div>
+    </div>
+    <div class="item"><div class="item-label">브랜드 성과 및 성장 지표</div><div class="item-content">누적 매출 약 1조원 · 누적 판매 약 1,800만개 · 모회사 바이오니아 광고/판촉비 440억 증가 확인 · 브랜드평판 2020년 3위</div></div>
+    <div class="item risk"><div class="item-label">잠재 리스크 및 전략적 한계</div><div class="item-content">다이어트 카테고리 경쟁 심화 시 유산균 정체성 약화 · "체지방 감소"만 반복 시 장 건강 이미지 희석 · 자사몰 의존도 높아 신규 유입 채널 약함</div></div>
+    <div class="item">
+      <div class="item-label">네이버 검색량 (2025.06~2026.06, 상대지수)</div>
+      <div class="item-content">
+        <div class="search-wrap"><span class="s-label">평균</span><div class="bar-bg"><div class="bar-fill" style="width:18.6%;background:#ba7517"></div></div><span class="s-val">18.6</span></div>
+        <div class="search-wrap"><span class="s-label">최고</span><div class="bar-bg"><div class="bar-fill" style="width:31.6%;background:#fac775"></div></div><span class="s-val">31.6</span></div>
+        <p class="search-note">검색량 대비 매출 규모가 크게 앞섬 — TV CF와 자사몰 중심의 직접 전환 구조 확인</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 여에스더 -->
+<div class="brand-card">
+  <div class="card-header"><div><div class="card-no">07</div><div class="card-title">여에스더 유산균</div></div><span class="card-badge t-ip">인물 IP형</span></div>
+  <div class="card-body">
+    <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">여에스더 유산균 클래식 — 2개월분 28,500원 (월 약 14,250원)<br><span style="font-size:12px;color:#888">골드 Pro · 화이트 · 질 유산균 리스펙타 Pro · 다이어트·피부·구강·모발·뇌 유산균 등 기능별 라인 확장 운영</span></div></div>
+    <div class="two-col">
+      <div class="item"><div class="item-label">마케팅 전략</div><div class="item-content"><ul><li>"의사가 직접 설계" — 서울대 의대 전문의 신뢰를 핵심 소구점으로</li><li>여에스더 방송 인지도 → 유산균 설득력으로 직접 전환</li><li>홈쇼핑 긴 호흡 설명 판매 강점 활용</li><li>기능별 라인업 확장 — 고민별 유산균 포트폴리오 전략</li><li>1+1·50% 할인 등 강한 프로모션형 전환 운영</li></ul></div></div>
+      <div class="item"><div class="item-label">주요 판매처</div><div class="item-content"><ul><li>에스더몰 (자사몰) — 전 라인 직접 판매</li><li>홈쇼핑 — 핵심 판매 채널</li><li>오픈마켓 (쿠팡·11번가 등)</li><li>라이브커머스 · 콘텐츠 커머스</li></ul></div></div>
+    </div>
+    <div class="item"><div class="item-label">브랜드 성과 및 성장 지표</div><div class="item-content">출시 15년 누적 1,000만 병 판매 · 에스더포뮬러 연매출 최고 3,235억 (2023) · 2024년 매출 2,789억으로 감소 · 영업이익 2023년 492억→2024년 60억으로 급감</div></div>
+    <div class="item risk"><div class="item-label">잠재 리스크 및 전략적 한계</div><div class="item-content">개인 IP 의존도 과다 — 여에스더 리스크가 브랜드 리스크로 직결 · 광고 표현 과장 논란 이력 (2023년 고발 → 혐의없음, 식약처 일부 행정처분) · 매출·영업이익 동반 하락세 · 경쟁 심화로 수익성 압박</div></div>
+    <div class="item">
+      <div class="item-label">네이버 검색량 (2025.06~2026.06, 상대지수)</div>
+      <div class="item-content">
+        <div class="search-wrap"><span class="s-label">평균</span><div class="bar-bg"><div class="bar-fill" style="width:2.4%;background:#993556"></div></div><span class="s-val">2.4</span></div>
+        <div class="search-wrap"><span class="s-label">최고</span><div class="bar-bg"><div class="bar-fill" style="width:15.9%;background:#f4c0d1"></div></div><span class="s-val">15.9</span></div>
+        <p class="search-note">평소 검색량 매우 낮으나 2026.01월 전후 급등 구간 확인 — 홈쇼핑 방영 또는 이슈 시점으로 추정. 검색보다 방송·홈쇼핑 유입 의존도 높은 구조</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- brand-grid -->
+
+<hr class="divider">
+<div class="section-title">기타 — 니치 브랜드</div>
+<div class="niche-grid">
+  <div class="brand-card">
+    <div class="card-header"><div><div class="card-no">N1</div><div class="card-title">비피젠</div></div><span class="card-badge" style="background:#e1f5ee;color:#0f6e56">비피더스 특화</span></div>
+    <div class="card-body">
+      <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">퓨어 비피더스 프리미엄 — 30캡슐 / 59,000원</div></div>
+      <div class="item"><div class="item-label">핵심 포지션</div><div class="item-content">100% 비피더스균 4종 · 100억 CFU 보장 · 장용성 캡슐 · 전 과정 콜드체인 · 카카오 플친 CRM 중심 D2C · 키즈·구강·코면역 확장</div></div>
+      <div class="item risk"><div class="item-label">한계</div><div class="item-content">대형 ATL 없음 · 공개 매출/점유율 미확인 · 대중 리테일 노출 약함</div></div>
+    </div>
+  </div>
+  <div class="brand-card">
+    <div class="card-header"><div><div class="card-no">N2</div><div class="card-title">비피오</div></div><span class="card-badge" style="background:#e1f5ee;color:#0f6e56">비피더스 특화</span></div>
+    <div class="card-body">
+      <div class="item"><div class="item-label">대표 상품 · 가격</div><div class="item-content">트루 비피더스 100 — 30캡슐 / 29,900원</div></div>
+      <div class="item"><div class="item-label">핵심 포지션</div><div class="item-content">3개월 유통 원칙 · 콜드체인 + 당일출고 · "신선도"를 상품화 · 유지태(2025)→조여정(2026) 배우 모델 순차 발탁 · 8차 완판 기록</div></div>
+      <div class="item risk"><div class="item-label">한계</div><div class="item-content">브랜드 인지도 아직 대중 수준 미달 · 자사몰 중심 구조 · 공개 성과 데이터 제한적</div></div>
+    </div>
+  </div>
+</div>
+
+<p class="footnote">* 검색량: 네이버 데이터랩 기준 2025.06.09~2026.06.09 일간 상대지수, 전체 기간 최고값=100으로 정규화 &nbsp;|&nbsp; 피토틱스·라엘밸런스는 제공 데이터 미포함 &nbsp;|&nbsp; 가격은 공식몰 기준이며 프로모션에 따라 변동 있음</p>
+</div>
+</body>
+</html>
