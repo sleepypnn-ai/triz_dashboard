@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하루한알 지점 별 매출 분석</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<style>
+:root{--blue:#1f4e79;--teal:#2a9d8f;--orange:#e76f51;--purple:#7b4ea3;--bg:#eef2f5;--card:#fff;--ink:#1d2733;--mut:#6a7785;--line:#dde3e9;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR','Malgun Gothic',sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px 60px}
+header{background:linear-gradient(120deg,#13314f,#1f4e79);color:#fff;padding:26px 28px;border-radius:0 0 14px 14px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+header h1{font-size:26px;font-weight:700;letter-spacing:-.5px}
+header .meta{font-size:13px;opacity:.82;margin-top:6px}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-radius:10px;margin:18px 0;padding:6px;display:flex;gap:4px;box-shadow:0 1px 6px rgba(0,0,0,.08);flex-wrap:wrap}
+nav button{flex:1;min-width:110px;border:0;background:transparent;padding:11px 10px;border-radius:7px;font-size:14px;font-weight:600;color:var(--mut);cursor:pointer;font-family:inherit}
+nav button.on{background:var(--blue);color:#fff}
+nav button:hover:not(.on){background:#eef2f5}
+section.tab{display:none;animation:fade .25s}
+section.tab.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:18px}
+.card h2{font-size:18px;color:#13314f;margin-bottom:4px}
+.card h3{font-size:15px;color:var(--blue);margin:6px 0 10px}
+.card .desc{font-size:12.5px;color:var(--mut);margin-bottom:14px}
+.muted{color:#97a2af;font-weight:400;font-size:.92em}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:#13314f;color:#fff;border-radius:10px;padding:14px 16px}
+.kpi.t-방배점{background:linear-gradient(135deg,#1f4e79,#2c6aa0)}
+.kpi.t-압구정점{background:linear-gradient(135deg,#23867a,#2a9d8f)}
+.kpi.t-연희점{background:linear-gradient(135deg,#d65f43,#e76f51)}
+.kpi.t-장기점{background:linear-gradient(135deg,#6a4291,#7b4ea3)}
+.kpi b{font-size:23px;display:block;line-height:1.2}
+.kpi span{font-size:11.5px;opacity:.86}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+th{background:var(--blue);color:#fff;font-weight:600;font-size:12.5px}
+td.l,th.l{text-align:left}
+tr:nth-child(even) td{background:#f6f9fb}
+.chip{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11px;font-weight:700;color:#fff}
+.c-방배점{background:var(--blue)}.c-압구정점{background:var(--teal)}.c-연희점{background:var(--orange)}.c-장기점{background:var(--purple)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.chartbox{position:relative;height:300px}
+.chartbox.sm{height:240px}
+.storebtns{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.storebtns button{border:2px solid var(--line);background:#fff;padding:9px 18px;border-radius:9px;font-weight:700;font-size:14px;cursor:pointer;color:var(--mut);font-family:inherit}
+.storebtns button.on.s방배점{background:var(--blue);border-color:var(--blue);color:#fff}
+.storebtns button.on.s압구정점{background:var(--teal);border-color:var(--teal);color:#fff}
+.storebtns button.on.s연희점{background:var(--orange);border-color:var(--orange);color:#fff}
+.storebtns button.on.s장기점{background:var(--purple);border-color:var(--purple);color:#fff}
+.profhead{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.profhead h2{font-size:21px}
+ul.facts{list-style:none;margin-top:6px}
+ul.facts li{padding:7px 0 7px 22px;position:relative;border-bottom:1px solid #f0f3f6;font-size:13.5px}
+ul.facts li:before{content:'▸';position:absolute;left:2px;color:var(--teal);font-weight:700}
+.note{background:#f0f7f5;border:1px solid #bfddd7;border-radius:9px;padding:13px 16px;font-size:13px;margin-bottom:16px}
+.note b{color:#1a6b5f}
+.district{border-radius:12px;padding:18px 20px;margin-bottom:16px;color:#fff}
+.district .lbl{font-size:12px;opacity:.85;font-weight:600;letter-spacing:.5px}
+.district h3{font-size:19px;margin:3px 0 6px;color:#fff}
+.district .dsec{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.22)}
+.district .dlbl{font-size:12px;font-weight:700;background:rgba(255,255,255,.18);padding:3px 11px;border-radius:6px;display:inline-block;margin-bottom:7px}
+.district .dsec p{font-size:13.5px;line-height:1.7;opacity:.98;margin:0}
+.district .devid{list-style:none;margin:2px 0 0;padding:0}
+.district .devid li{position:relative;padding:4px 0 4px 15px;font-size:13px;line-height:1.6;opacity:.97}
+.district .devid li:before{content:'·';position:absolute;left:3px;font-weight:700;font-size:15px}
+.d방배점{background:linear-gradient(135deg,#1f4e79,#3a6ea5)}
+.d압구정점{background:linear-gradient(135deg,#23867a,#33b3a2)}
+.d연희점{background:linear-gradient(135deg,#d65f43,#ef8163)}
+.d장기점{background:linear-gradient(135deg,#6a4291,#9168bd)}
+.timebox{background:#fff6ed;border:1px solid #f3c9a8;border-radius:9px;padding:11px 15px;font-size:13px;margin-bottom:12px}
+.timebox b{color:#b35a1f}
+.fn{font-size:11px;color:#8a96a3;border-top:1px solid var(--line);margin-top:8px;padding-top:8px}
+.foot{font-size:11.5px;color:#8a96a3;padding:14px 4px;line-height:1.7}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 12px}
+.tag{font-size:11px;padding:3px 9px;border-radius:6px;background:#eef2f5;color:#445;font-weight:600}
+</style></head><body>
+<header><div class="wrap" style="padding:0">
+<h1>하루한알 지점 별 매출 분석</h1>
+<div class="meta">직영 4개점(방배·압구정·연희·장기) 결제내역 기반 · 데이터 범위 2025-01-01 ~ 2026-06-25</div>
+</div></header>
+<div class="wrap">
+
+<nav>
+<button class="on" data-tab="overview">종합 비교</button>
+<button data-tab="profile">지점별 프로파일</button>
+<button data-tab="compare">항목별 비교</button>
+<button data-tab="product">상품 분석</button>
+</nav>
+
+<section class="tab on" id="overview">
+  <div class="kpis" id="ovkpi"></div>
+  <div class="card">
+    <h2>4개 지점 한눈에 비교</h2>
+    <div class="desc">총매출은 데이터 기간이 달라 직접 비교 불가 → <b>하루 평균 매출</b>과 <b>같은 기간 비교</b>로 판단하세요.</div>
+    <div style="overflow-x:auto"><table id="ovtable"></table></div>
+    <div class="fn">객단가 = 손님 1명이 1회에 평균 결제한 금액 &nbsp;|&nbsp; 일평균매출 = 데이터가 있는 영업일(활성일)만의 하루 평균 &nbsp;|&nbsp; 일매출 변동성(CV) = 매출이 들쭉날쭉한 정도(낮을수록 안정) &nbsp;|&nbsp; 주말비 = 주말 하루매출 ÷ 평일 하루매출(1보다 크면 주말형)</div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>하루 평균 매출 — 전체 vs 같은 기간</h3>
+      <div class="desc">옅은 막대=각 지점 전체 평균 / 진한 막대=동일기간(2026.5.19 ~ 6.25 (38일)) 평균</div>
+      <div class="chartbox"><canvas id="c_dailyavg"></canvas></div></div>
+    <div class="card"><h3>하루 평균 손님 수 (주문건수)</h3>
+      <div class="desc">매출 격차가 객단가가 아니라 손님 수에서 발생함을 보여줍니다</div>
+      <div class="chartbox"><canvas id="c_orders"></canvas></div></div>
+  </div>
+  <div class="note" style="background:#fef6ec;border-color:#f0d2ad">
+  <b>한눈 인사이트</b> · 같은 기간(38일)으로 맞춰 비교하면 하루 평균 매출은 <b>방배 ₩4,126,722 &gt; 장기 ₩2,119,313 &gt; 압구정 ₩824,174 &gt; 연희 ₩676,995</b>으로 큰 차이가 납니다. 객단가는 8천~1.35만원으로 비교적 비슷하므로 <b>매출 차이는 「손님 수」에서 발생</b>합니다.
+  </div>
+</section>
+
+<section class="tab" id="profile">
+  <div class="storebtns" id="sbtns"></div>
+  <div id="profbody"></div>
+</section>
+
+<section class="tab" id="compare">
+  <div class="grid2">
+    <div class="card"><h3>① 하루 평균 매출 (전체 활성일)</h3><div class="chartbox sm"><canvas id="cc_rev"></canvas></div></div>
+    <div class="card"><h3>② 하루 평균 손님 수</h3><div class="chartbox sm"><canvas id="cc_ord"></canvas></div></div>
+    <div class="card"><h3>③ 객단가 (중앙값)</h3><div class="chartbox sm"><canvas id="cc_aov"></canvas></div></div>
+    <div class="card"><h3>④ 매출 안정성 — 변동성 CV (낮을수록 안정)</h3><div class="chartbox sm"><canvas id="cc_cv"></canvas></div></div>
+    <div class="card"><h3>⑤ 요일 패턴 (지점내 평균=1.0 기준)</h3><div class="desc">선이 평일↔주말 어디로 기우는지 = 평일형/주말형</div><div class="chartbox sm"><canvas id="cc_dow"></canvas></div></div>
+    <div class="card"><h3>⑥ 시간대 패턴 (주문 비중 %)</h3><div class="desc">피크 시각·집중 시간대가 지점마다 다름</div><div class="chartbox sm"><canvas id="cc_hour"></canvas></div></div>
+    <div class="card"><h3>⑦ 에그타르트 매출 비중 (%)</h3><div class="chartbox sm"><canvas id="cc_et"></canvas></div></div>
+    <div class="card"><h3>⑧ 매장 vs 배달 비중 (매출 %)</h3><div class="chartbox sm"><canvas id="cc_ch"></canvas></div></div>
+  </div>
+  <div class="card"><h2>항목별 지점 특성 요약</h2>
+    <div style="overflow-x:auto"><table id="cmptable"></table></div>
+  </div>
+</section>
+
+<section class="tab" id="product">
+  <div class="grid2">
+    <div class="card"><h3>전체 상품 종류별 매출 비중</h3><div class="desc">에그타르트 / 생란·계란 / 구운란 (음료·세트는 거의 없음)</div><div class="chartbox"><canvas id="p_overall"></canvas></div></div>
+    <div class="card"><h3>지점별 상품 종류 비중 (매출 %)</h3><div class="desc">에그타르트 의존도와 계란류 비중 비교</div><div class="chartbox"><canvas id="p_storemix"></canvas></div></div>
+  </div>
+  <div class="card"><h2>지점별 잘 팔리는 상품 Top 10 <span style="font-size:13px;color:var(--mut);font-weight:400">(판매수량 기준)</span></h2>
+    <div class="desc">"에그타르트"와 "오리지널 에그타르트"는 같은 상품(POS 라벨 차이)이라 통합했습니다. 상품별 매출은 단품주문 단가로 추정한 근사치입니다.</div>
+    <div class="grid2" id="top10grid"></div>
+  </div>
+</section>
+
+<div class="foot">본 대시보드는 결제내역 데이터만을 근거로 한 객관적 집계입니다. 지점별 데이터 기간 차이를 하루평균·동일기간 비교로 보정했으며, 상권 특성은 데이터 신호 기반 추정입니다.</div>
+</div>
+
+<script>
+const DATA={"stores": ["방배점", "압구정점", "연희점", "장기점"], "months": ["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], "dow": ["월", "화", "수", "목", "금", "토", "일"], "summary": {"방배점": {"기간": "2025.1.1 ~ 2026.6.25", "데이터성격": "18개월 연속 (완전)", "활성일수": 538, "순매출": 1723941642, "주문건수": 114287, "객단가중앙": 11500, "객단가평균": 15084, "취소율": 0.98, "일평균매출": 3204352, "일평균건수": 212.4, "CV": 0.26, "동일기간일평균": 4126722, "단품비중": 77.1, "배달비중": 0.0, "주말비": 1.11}, "압구정점": {"기간": "2025.1.2 ~ 2026.6.25", "데이터성격": "18개월 연속 (완전)", "활성일수": 459, "순매출": 336577328, "주문건수": 23959, "객단가중앙": 10500, "객단가평균": 14048, "취소율": 1.84, "일평균매출": 733283, "일평균건수": 52.2, "CV": 0.33, "동일기간일평균": 824174, "단품비중": 73.8, "배달비중": 14.7, "주말비": 0.81}, "연희점": {"기간": "2025.11.3 ~ 2026.6.25", "데이터성격": "신규 오픈 후 약 8개월", "활성일수": 229, "순매출": 134810163, "주문건수": 12576, "객단가중앙": 8000, "객단가평균": 10719, "취소율": 0.63, "일평균매출": 588690, "일평균건수": 54.9, "CV": 0.54, "동일기간일평균": 676995, "단품비중": 80.9, "배달비중": 0.7, "주말비": 1.82}, "장기점": {"기간": "2025.12.30 ~ 2026.6.25", "데이터성격": "약 6개월 (POS 변경 후)", "활성일수": 156, "순매출": 294663185, "주문건수": 17508, "객단가중앙": 13500, "객단가평균": 16830, "취소율": 1.34, "일평균매출": 1888866, "일평균건수": 112.2, "CV": 0.3, "동일기간일평균": 2119313, "단품비중": 62.5, "배달비중": 12.0, "주말비": 0.75}}, "monthly": {"방배점": [2678370, 2591616, 2925032, 3060110, 3174339, 3093547, 2904675, 3022744, 3302735, 3029301, 2961074, 2951581, 2741883, 2811301, 3827205, 4329101, 4220158, 4110424], "압구정점": [433765, 437523, 525662, 626538, 675900, 722969, 728621, 824604, 803433, 884188, 832854, 776358, 748666, 754318, 841394, 937532, 797079, 792836], "연희점": [null, null, null, null, null, null, null, null, null, null, 513362, 330224, 393160, 570207, 708733, 745413, 833248, 600481], "장기점": [null, null, null, null, null, null, null, null, null, null, null, 109250, 1785554, 1625234, 1686218, 2046793, 2143994, 2139552]}, "dowpat": {"방배점": [3033042, 3067027, 3047057, 3068235, 3326194, 3641410, 3245715], "압구정점": [705231, 750386, 726506, 676747, 797240, 784204, 407356], "연희점": [412984, 492218, 467773, 459229, 548030, 950217, 783792], "장기점": [1873947, 1867809, 1931049, 1847966, 2039571, 2073852, 810867]}, "hour": {"방배점": [3.1, 7.4, 8.4, 12.3, 11.7, 11.1, 10.5, 10.3, 9.6, 10.0, 5.4], "압구정점": [4.8, 7.8, 7.8, 11.0, 11.4, 10.3, 11.4, 11.4, 12.8, 10.5, 0.7], "연희점": [1.7, 4.6, 6.2, 10.2, 12.4, 13.4, 14.7, 15.0, 12.6, 8.5, 0.5], "장기점": [3.6, 7.9, 8.7, 11.4, 12.2, 11.7, 12.5, 12.6, 10.6, 8.0, 0.4]}, "channel": {"방배점": {"포스": 100.0, "배달": 0.0}, "압구정점": {"포스": 85.3, "배달": 14.7}, "연희점": {"포스": 99.3, "배달": 0.7}, "장기점": {"포스": 88.0, "배달": 12.0}}, "groupmix": {"방배점": {"에그타르트": {"매출": 64.1, "수량": 75.4}, "생란/계란": {"매출": 27.5, "수량": 15.5}, "구운란": {"매출": 7.8, "수량": 6.4}, "포장재": {"매출": 0.2, "수량": 2.1}, "기타": {"매출": 0.3, "수량": 0.5}}, "압구정점": {"에그타르트": {"매출": 72.7, "수량": 78.1}, "생란/계란": {"매출": 18.5, "수량": 10.1}, "구운란": {"매출": 8.4, "수량": 7.6}, "포장재": {"매출": 0.3, "수량": 2.3}, "기타": {"매출": 0.1, "수량": 1.9}}, "연희점": {"에그타르트": {"매출": 75.9, "수량": 80.0}, "생란/계란": {"매출": 15.6, "수량": 9.0}, "구운란": {"매출": 7.4, "수량": 6.8}, "포장재": {"매출": 0.3, "수량": 3.2}, "기타": {"매출": 0.1, "수량": 0.3}}, "장기점": {"에그타르트": {"매출": 48.4, "수량": 63.3}, "생란/계란": {"매출": 38.3, "수량": 23.5}, "구운란": {"매출": 13.1, "수량": 10.5}, "포장재": {"매출": 0.1, "수량": 1.3}, "기타": {"매출": 0.1, "수량": 1.3}}}, "top10": {"방배점": [{"상품": "에그타르트(플레인)", "수량": 275782, "매출": 1103128000}, {"상품": "왕란 30구", "수량": 12455, "매출": 105867500}, {"상품": "유정란 30구", "수량": 12059, "매출": 150737500}, {"상품": "유정란 15구", "수량": 9780, "매출": 68460000}, {"상품": "4구 박스", "수량": 7589, "매출": 3794500}, {"상품": "특란 30구", "수량": 7583, "매출": 56872500}, {"상품": "맥반석 구운란 15구", "수량": 7380, "매출": 40590000}, {"상품": "맥반석 구운란 6구", "수량": 5223, "매출": 13057500}, {"상품": "맥반석 구운란 30구", "수량": 5220, "매출": 49590000}, {"상품": "왕란 15구", "수량": 3520, "매출": 17600000}], "압구정점": [{"상품": "에그타르트(플레인)", "수량": 60296, "매출": 241184000}, {"상품": "4구 박스", "수량": 1802, "매출": 901000}, {"상품": "맥반석 구운란 6구", "수량": 1696, "매출": 4240000}, {"상품": "유정란 15구", "수량": 1284, "매출": 8988000}, {"상품": "맥반석 구운란 15구", "수량": 1281, "매출": 7045500}, {"상품": "동물복지 유정란 15구", "수량": 1121, "매출": 8407500}, {"상품": "배달료", "수량": 1067, "매출": 0}, {"상품": "동물복지 유정란 30구", "수량": 945, "매출": 12757500}, {"상품": "유정란 30구", "수량": 856, "매출": 10700000}, {"상품": "블루베리 에그타르트 [1개]", "수량": 711, "매출": 0}], "연희점": [{"상품": "에그타르트(플레인)", "수량": 25387, "매출": 101548000}, {"상품": "4구박스", "수량": 693, "매출": 346500}, {"상품": "동물복지 유정란 15구", "수량": 479, "매출": 3592500}, {"상품": "맥반석 구운란 15구", "수량": 361, "매출": 1985500}, {"상품": "유정란15구", "수량": 340, "매출": 2380000}, {"상품": "맥반석 구운란 6구", "수량": 338, "매출": 845000}, {"상품": "2구 박스", "수량": 324, "매출": 97200}, {"상품": "동물복지 유정란 30구", "수량": 264, "매출": 3564000}, {"상품": "구운란15구", "수량": 222, "매출": 1221000}, {"상품": "유정란30구", "수량": 198, "매출": 2475000}], "장기점": [{"상품": "에그타르트(플레인)", "수량": 29546, "매출": 118184000}, {"상품": "왕란 30구", "수량": 4402, "매출": 37417000}, {"상품": "특란 30구", "수량": 2949, "매출": 22117500}, {"상품": "동물복지 유정란 30구", "수량": 2851, "매출": 38488500}, {"상품": "맥반석 구운란 30구", "수량": 2546, "매출": 24187000}, {"상품": "누텔라 바나나 에그타르트", "수량": 2145, "매출": 8580000}, {"상품": "맥반석 구운란 15구", "수량": 1783, "매출": 9806500}, {"상품": "리얼커피 에그타르트", "수량": 1286, "매출": 5144000}, {"상품": "블루베리 에그타르트", "수량": 872, "매출": 3924000}, {"상품": "맥반석 구운란 6구", "수량": 782, "매출": 1955000}]}, "overall_group": {"에그타르트": {"매출": 64.0, "수량": 74.8}, "생란/계란": {"매출": 27.0, "수량": 15.1}, "구운란": {"매출": 8.5, "수량": 7.0}, "포장재": {"매출": 0.2, "수량": 2.1}, "기타": {"매출": 0.3, "수량": 0.7}}, "hourlabels": ["9시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시", "19시"], "samewindow_label": "2026.5.19 ~ 6.25 (38일)"};
+const DISTRICT={"방배점": {"title": "직장·주거 혼합 생활상권 + 내방역 카페골목 상권", "특성": "직장과 주거 수요가 함께 형성된 고밀도 생활상권. 평일 점심 수요와 저녁·주말 주거 수요가 동시에 발생해 특정 시간·요일에 치우치지 않는 안정적인 수요 기반을 가진다. 여기에 내방역 카페골목 방문 동선까지 더해져 생활권 고객과 외부 방문객을 함께 흡수한다.", "타겟": "<b>핵심</b> · 인근 직장인, 거주 가족, 생활권 단골 고객<br><b>추가</b> · 내방역 카페골목 방문객, 로컬 맛집·디저트 탐방객, 브랜드 팬덤 고객", "근거": ["거래량 <b>하루 평균 212.4건</b>으로 4개점 중 최대 — 배후 수요·유동인구 최대", "평일 12시 피크 + <b>저녁(17시 이후) 비중 25%</b> — 직장·주거 수요 양립", "<b>주말비 1.11</b> — 평일·주말 매출이 고른 안정형", "<b>배달 0%</b> — 도보 매장 유입 중심", "<b>매출 변동성 CV 0.26으로 최저</b> — 가장 안정적", "에그타르트 64.1% + 생란·계란 27.5% + 구운란 7.8% — 디저트와 생활 장보기 수요 공존", "상권자료 기준 <b>유동인구 자치구 1위</b>, 점포당 월평균 매출 3,799만 원 — 상권 자체 수요 기반 우수"], "해석": "단순 고매출 지점을 넘어 하루한알의 수요 구조가 가장 안정적으로 검증된 핵심 지점. 생활권 수요와 로컬 명소 유입이 동시에 작동한다."}, "압구정점": {"title": "평일 활동 중심 의료·오피스 상권 + 압구정 파생 유입", "특성": "로데오거리·도산공원 메인 핫플 상권과는 결이 다르지만, 압구정역 일대의 오피스·병의원·뷰티·상업시설 수요를 기반으로 하는 평일 활동형 상권. 주거 배후는 있으나 현재 데이터상 핵심 수요로 확인되지는 않으며, 평일 오후 간식·소량 포장·근거리 배달 수요가 더 뚜렷하다.", "타겟": "<b>핵심</b> · 인근 직장인, 병의원·뷰티업 종사자, 압구정 상권 방문객<br><b>잠재</b> · 압구정·도산공원 방문객, 주변 고소득 주거지 거주자, 근거리 배달 고객", "근거": ["하루 평균 거래량 <b>52.2건</b> — 유입 규모는 작지만 안정적 운영 가능", "<b>주말비 0.81</b> — 평일 매출이 강한 평일형", "<b>17시 피크</b> — 퇴근 전후·오후 활동 수요", "<b>배달 비중 14.7%로 4개점 중 최고</b> — 근거리 주문 수요 존재", "에그타르트 매출 비중 72.7% — 계란 장보기보다 디저트·간식 소비 중심", "4구 박스 판매 상위 — 소량 포장·선물 수요 / 객단가 중앙값 <b>10,500원</b>", "상권자료 기준 제과점 수는 자치구 상위권이나 매출 순위는 중위권 — 점포 밀도 대비 경쟁 압력 존재"], "해석": "부촌 주거형이나 순수 핫플형으로 보기보다, 평일 의료·뷰티·오피스 수요에 압구정 상권 방문객이 일부 더해지는 지점으로 해석하는 것이 적합하다. 핵심은 병의원·뷰티·오피스 수요이며, 주거 타겟은 근거리 배달·예약픽업·정기구매 형태로 확장 가능성이 있다."}, "연희점": {"title": "주말 오후 목적방문·로컬 라이프스타일 상권", "특성": "연희동 생활권을 기반으로 카페·편집숍·취미 공간·외식 목적 방문 수요가 더해진 주말 오후형 로컬 상권. 주말 산책, 카페 투어, 취미 활동, 동네 나들이 과정에서 가볍게 구매하는 소비가 중심이다.", "타겟": "<b>핵심</b> · 연희동 거주민, 주말 나들이객, 카페·편집숍·취미 공간 방문객<br><b>잠재</b> · 연세대 한국어학당·외국인 학습자, 주변 취미·라이프스타일 공간 방문객", "근거": ["하루 평균 거래량 <b>54.9건</b> — 압구정과 유사하나 요일·시간 패턴은 상이", "<b>주말비 1.82로 4개점 중 가장 강한 주말형</b>", "오후 14~17시 매출 집중 + 오전 매출 비중 낮음 — 나들이·취미 동선과 정합", "<b>객단가 8,000원으로 최저</b> + <b>단품 주문 80.9%로 최고</b> — 가벼운 디저트 구매 중심", "에그타르트 매출 비중 75.9% — 계란류보다 디저트 의존도 높음 / 배달 0.7%(도보 방문 중심)", "상권자료 기준 제과점 91개로 자치구 1위 — 시장성은 있으나 디저트·카페 경쟁 밀도 높음"], "해석": "대학가 상권으로 단정하기보다 주말 오후 로컬 라이프스타일 상권으로 보는 것이 적합하다. 시장성은 있으나 경쟁 밀도가 높아 \"연희동 방문 코스 안에 들어가는 디저트\"로 포지셔닝하는 것이 중요하다."}, "장기점": {"title": "신도시 가족 주거·복합구매 상권", "특성": "김포 한강신도시 생활권에 기반한 가족 주거형 상권. 에그타르트가 여전히 핵심 상품이지만, 다른 지점 대비 계란류·구운란·대용량 30구 상품의 매출 비중이 높다. 디저트 구매와 식재료성 상품 구매가 함께 발생하는 \"에그타르트 + 계란류 복합구매\" 구조가 가장 잘 드러나는 지점이다.", "타겟": "<b>핵심</b> · 김포 한강신도시 거주 가족, 장기동 생활권 고객, 반복 구매 고객<br><b>잠재</b> · 아이 있는 가정, 간식+식재료 동시 구매 고객, 라베니체·금빛수로 나들이 후 보조 유입", "근거": ["<b>객단가 중앙값 13,500원으로 4개점 중 최고</b> — 대량·복합 구매 성격", "하루 평균 거래량 <b>112.2건</b> — 방배 다음으로 큰 규모", "에그타르트 매출 48.4%·판매수량 63.3% — 여전히 핵심 상품은 에그타르트", "<b>생란·계란 38.3% + 구운란 13.1%</b> — 타 지점 대비 계란류 보조 매출축이 가장 뚜렷", "<b>복합주문 37%로 최고</b> — 장보기형 패턴 (왕란·특란·유정란·구운란 30구 상위권)", "저녁 비중 낮고 낮 시간대 구매 강함 — 퇴근길 디저트보다 생활 구매 / 배달 12.0%"], "해석": "에그타르트 중심 매출 구조를 유지하면서도 다른 지점보다 계란류·구운란·대용량 상품 구매가 함께 발생하는 본점형 모델을 보여준다. 다른 지점이 에그타르트 중심 디저트 가능성을 보여준다면, 장기점은 에그타르트와 계란류가 함께 팔리는 하루한알의 원(原) 브랜드 구조를 보여주는 지점이다."}};
+const TIMENOTE={"방배점": "점심(12시) 피크 + 저녁(17시 이후) 비중 25%로 4개점 중 최고 → 점심·저녁 두 번 몰리는 <b>양봉(쌍봉)형</b>.", "압구정점": "4개점 중 유일하게 <b>17시(늦은 오후)에 피크</b> → 퇴근길·오후 쇼핑형. 주말엔 오전 방문이 늘어 브런치성 패턴.", "연희점": "오후(14~17시)에 43% 집중, 오전 매출은 사실상 없음 → 늦게 열리는 <b>「오후 집중형」</b>.", "장기점": "저녁(17시 이후) 비중이 19%로 가장 낮고 낮 시간(점심~오후)에 집중 → <b>낮 시간 가족 장보기형</b>."};
+const PROF={"방배점": ["<b>매출 규모·거래량 4개점 중 최대</b> (하루 평균 212.4건, ₩3,204,352). 같은 기간 비교에서도 1위.", "월별로는 2025년 내내 ₩260~330만으로 안정적이다가 <b>2026년 봄(3월~) ₩380~430만으로 한 단계 상승(4월 ₩433만 최고)</b>.", "상품은 에그타르트 + 고가 계란박스(왕란·유정란 30구) 균형. 에그타르트 매출 비중 62%.", "요일은 평일·주말이 고른 <b>평탄형</b>(주말비 1.10). 채널은 <b>100% 매장</b>(배달 없음).", "매출 변동성 4개점 중 가장 낮음(CV 0.25) — 가장 안정적."], "압구정점": ["<b>18개월 연속</b> 데이터. 오픈기 하루 ₩44만 → 1년 후 ₩80~94만으로 <b>약 2배 성장 후 안정</b>.", "소량 포장(4구 박스)·소량 구운란 중심. 에그타르트 매출 72%.", "요일은 <b>평일형</b>(일요일 매출이 평일의 58%로 급감).", "배달 비중 15%로 4개점 중 가장 높음.", "매출 변동성 보통(CV 0.33)."], "연희점": ["<b>2025.11.3 신규 오픈</b>. 오픈 후 하루 ₩50만 → ₩84만(26.5월)으로 성장 흐름.", "<b>에그타르트 단일 의존 최고</b>(매출 76%, 단품주문 81%) — 가장 단순한 구성.", "요일은 <b>강한 주말형</b>(주말비 1.82, 토요일 매출이 평일의 약 2배).", "거의 100% 매장(배달 0.7%).", "객단가 최저(₩8,000) — 에그타르트 위주 소량 구매. 신규점이라 변동성 큼(CV 0.54)."], "장기점": ["<b>2025.12.30부터 약 6개월</b> 데이터(POS 변경 후 구간 확보).", "거래량 2위(하루 112.2건, ₩1,888,866). <b>객단가 최고</b>(₩13,500).", "<b>대용량 계란박스(30구) 강세</b> — 계란류 매출이 에그타르트와 맞먹음. 복합주문 37%로 최고.", "월별로는 1월 ₩179만 → 5~6월 ₩214만으로 소폭 상승.", "요일은 토·일 운영을 최근 시작해 주말 데이터가 아직 적습니다(요일 패턴 해석 보류). 배달 비중 7%."]};
+const COL={'방배점':'#1f4e79','압구정점':'#2a9d8f','연희점':'#e76f51','장기점':'#7b4ea3'};
+const S=DATA.stores;
+const won=v=>v>=1e8?(v/1e8).toFixed(2)+'억':v>=1e4?Math.round(v/1e4).toLocaleString()+'만':v.toLocaleString();
+Chart.defaults.font.family="'Noto Sans KR','Malgun Gothic',sans-serif";Chart.defaults.font.size=12;
+
+const ovk=document.getElementById('ovkpi');
+S.forEach(st=>{const m=DATA.summary[st];
+ ovk.innerHTML+=`<div class="kpi t-${st}"><span>${st} · 하루 평균 매출</span><b>₩${m.일평균매출.toLocaleString()}</b><span>손님 ${m.일평균건수}명/일 · 객단가 ${m.객단가중앙.toLocaleString()}원</span></div>`;});
+
+const cols=[['지점','지점'],['기간','분석 기간'],['활성일수','활성일수'],['일평균매출','하루 평균<br>매출'],['일평균건수','하루 평균<br>손님 수'],['객단가중앙','객단가<br>(중앙)'],['주말비','주말비'],['CV','매출<br>변동성'],['취소율','취소율%'],['동일기간일평균','동일기간<br>하루평균']];
+let th='<tr>'+cols.map(c=>`<th class="${c[0]=='지점'||c[0]=='기간'?'l':''}">${c[1]}</th>`).join('')+'</tr>';
+let tb='';
+S.forEach(st=>{const m=DATA.summary[st];
+ tb+='<tr>'+cols.map(c=>{let v=m[c[0]];
+  if(c[0]=='지점')return `<td class="l"><span class="chip c-${st}">${st}</span></td>`;
+  if(c[0]=='일평균매출'||c[0]=='동일기간일평균')v='₩'+v.toLocaleString();
+  else if(c[0]=='객단가중앙')v=v.toLocaleString()+'원';
+  else if(c[0]=='취소율')v=v+'%';
+  else if(c[0]=='기간')return `<td class="l">${v}</td>`;
+  return `<td>${v}</td>`;}).join('')+'</tr>';});
+document.getElementById('ovtable').innerHTML=th+tb;
+
+new Chart(c_dailyavg,{type:'bar',data:{labels:S,datasets:[
+ {label:'전체 평균',data:S.map(s=>DATA.summary[s].일평균매출/1e4),backgroundColor:S.map(s=>COL[s]+'66')},
+ {label:'동일기간 평균',data:S.map(s=>DATA.summary[s].동일기간일평균/1e4),backgroundColor:S.map(s=>COL[s])}]},
+ options:{plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+Math.round(c.raw)+'만원'}}},scales:{y:{title:{display:true,text:'만원/일'}}}}});
+new Chart(c_orders,{type:'bar',data:{labels:S,datasets:[{label:'하루 평균 손님 수',data:S.map(s=>DATA.summary[s].일평균건수),backgroundColor:S.map(s=>COL[s])}]},
+ options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'건/일'}}}}});
+
+const sb=document.getElementById('sbtns');
+S.forEach((st,i)=>sb.innerHTML+=`<button class="s${st} ${i==0?'on':''}" data-st="${st}">${st}</button>`);
+let pc={};
+function renderProfile(st){
+ const m=DATA.summary[st];const dd=DISTRICT[st];
+ document.querySelectorAll('#sbtns button').forEach(b=>b.classList.toggle('on',b.dataset.st==st));
+ const facts=PROF[st].map(f=>`<li>${f}</li>`).join('');
+ const kpi=[['하루 평균 매출','₩'+m.일평균매출.toLocaleString()],['하루 평균 손님',m.일평균건수+'명'],['객단가(중앙)',m.객단가중앙.toLocaleString()+'원'],['활성일수',m.활성일수+'일'],['매출 변동성',m.CV],['주말비',m.주말비]];
+ document.getElementById('profbody').innerHTML=`
+ <div class="district d${st}">
+   <div class="lbl">🧭 상권 인사이트 <span style="opacity:.7;font-weight:400">(결제 데이터 + 상권자료 기반)</span></div>
+   <h3>${dd.title}</h3>
+   <div class="dsec"><span class="dlbl">🏙 상권 특성</span><p>${dd.특성}</p></div>
+   <div class="dsec"><span class="dlbl">🎯 타겟 분석</span><p>${dd.타겟}</p></div>
+   <div class="dsec"><span class="dlbl">📊 데이터 근거</span><ul class="devid">${dd.근거.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+   <div class="dsec"><span class="dlbl">🔎 상권 해석</span><p>${dd.해석}</p></div>
+ </div>
+ <div class="card"><div class="profhead"><span class="chip c-${st}" style="font-size:14px;padding:4px 14px">${st}</span><h2>${st} 상세</h2></div>
+   <div class="tagrow"><span class="tag">${m.기간}</span><span class="tag">${m.데이터성격}</span></div>
+   <div class="kpis">${kpi.map(k=>`<div class="kpi t-${st}"><span>${k[0]}</span><b style="font-size:20px">${k[1]}</b></div>`).join('')}</div>
+   <ul class="facts">${facts}</ul></div>
+ <div class="grid2">
+   <div class="card"><h3>월별 하루평균 매출 추이</h3><div class="desc">${st=='연희점'?'신규 오픈 후 성장 흐름':'데이터 있는 달만 표시'}</div><div class="chartbox sm"><canvas id="pf_month"></canvas></div></div>
+   <div class="card"><h3>요일별 하루 평균 매출</h3><div class="chartbox sm"><canvas id="pf_dow"></canvas></div></div>
+ </div>
+ <div class="card"><h3>시간대별 주문 비중 (%)</h3>
+   <div class="timebox">⏰ <b>시간대 특수성</b> · ${TIMENOTE[st]}</div>
+   <div class="chartbox sm"><canvas id="pf_hour"></canvas></div></div>
+ <div class="grid2">
+   <div class="card"><h3>상품 종류 비중 (매출 %)</h3><div class="chartbox sm"><canvas id="pf_mix"></canvas></div></div>
+   <div class="card"><h3>잘 팔리는 상품 Top 10 (판매수량)</h3><div class="chartbox" style="height:300px"><canvas id="pf_top"></canvas></div></div>
+ </div>`;
+ Object.values(pc).forEach(c=>c.destroy&&c.destroy());pc={};
+ const mi=DATA.monthly[st];
+ pc.m=new Chart(pf_month,{type:'line',data:{labels:DATA.months,datasets:[{data:mi.map(v=>v?v/1e4:null),borderColor:COL[st],backgroundColor:COL[st]+'22',spanGaps:false,tension:.3,pointRadius:3,fill:true}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw?Math.round(c.raw)+'만원/일':''}}},scales:{y:{title:{display:true,text:'만원/일'}},x:{ticks:{maxRotation:60,minRotation:45,font:{size:9}}}}}});
+ pc.d=new Chart(pf_dow,{type:'bar',data:{labels:DATA.dow,datasets:[{data:DATA.dowpat[st].map(v=>v/1e4),backgroundColor:DATA.dow.map((_,i)=>i>=5?COL[st]:COL[st]+'99')}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>Math.round(c.raw)+'만원'}}},scales:{y:{title:{display:true,text:'만원'}}}}});
+ pc.h=new Chart(pf_hour,{type:'line',data:{labels:DATA.hourlabels,datasets:[{data:DATA.hour[st],borderColor:COL[st],backgroundColor:COL[st]+'22',tension:.35,fill:true,pointRadius:2}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'%'}}}}});
+ const gm=DATA.groupmix[st];const gl=['에그타르트','생란/계란','구운란','포장재','기타'];
+ pc.x=new Chart(pf_mix,{type:'doughnut',data:{labels:gl,datasets:[{data:gl.map(g=>gm[g].매출),backgroundColor:['#e63946','#2a9d8f','#e9c46a','#adb5bd','#6c757d']}]},options:{plugins:{legend:{position:'right'},tooltip:{callbacks:{label:c=>c.label+': '+c.raw+'%'}}}}});
+ const t=DATA.top10[st];
+ pc.t=new Chart(pf_top,{type:'bar',data:{labels:t.map(x=>x.상품),datasets:[{data:t.map(x=>x.수량),backgroundColor:COL[st]}]},options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'수량 '+c.raw.toLocaleString()+'개'}}},scales:{x:{title:{display:true,text:'판매수량(개)'}}}}});
+}
+sb.querySelectorAll('button').forEach(b=>b.onclick=()=>renderProfile(b.dataset.st));
+
+function barCmp(id,vals,fmt,title){return new Chart(document.getElementById(id),{type:'bar',data:{labels:S,datasets:[{data:vals,backgroundColor:S.map(s=>COL[s])}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},scales:{y:{title:{display:!!title,text:title||''}}}}});}
+barCmp('cc_rev',S.map(s=>DATA.summary[s].일평균매출),v=>'₩'+v.toLocaleString(),'원/일');
+barCmp('cc_ord',S.map(s=>DATA.summary[s].일평균건수),v=>v+'명','건/일');
+barCmp('cc_aov',S.map(s=>DATA.summary[s].객단가중앙),v=>'₩'+v.toLocaleString(),'원(중앙값)');
+barCmp('cc_cv',S.map(s=>DATA.summary[s].CV),v=>'CV '+v,'변동성');
+barCmp('cc_et',S.map(s=>DATA.groupmix[s].에그타르트.매출),v=>v+'%','%');
+new Chart(cc_dow,{type:'line',data:{labels:DATA.dow,datasets:S.map(s=>{const a=DATA.dowpat[s];const mn=a.reduce((x,y)=>x+y,0)/7;return{label:s,data:a.map(v=>v/mn),borderColor:COL[s],backgroundColor:'transparent',tension:.3,pointRadius:3};})},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'지수(평균=1)'}}}}});
+new Chart(cc_hour,{type:'line',data:{labels:DATA.hourlabels,datasets:S.map(s=>({label:s,data:DATA.hour[s],borderColor:COL[s],backgroundColor:'transparent',tension:.35,pointRadius:0}))},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'%'}}}}});
+new Chart(cc_ch,{type:'bar',data:{labels:S,datasets:[{label:'매장(포스)',data:S.map(s=>DATA.channel[s].포스),backgroundColor:'#264653'},{label:'배달',data:S.map(s=>DATA.channel[s].배달),backgroundColor:'#e76f51'}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,max:100},y:{stacked:true}}}});
+
+const cmp=[['매출 규모','일평균: 방배 ₩3,204,352 > 장기 ₩1,888,866 > 압구정 ₩733,283 > 연희 ₩588,690'],
+['손님 수','방배 212명/일 vs 연희 55명/일 — 매출차의 핵심 동인'],
+['객단가','장기 1.35만 최고, 연희 0.8만 최저 (편차 작음)'],
+['매출 안정성','방배 가장 안정(CV 0.25), 연희 변동 큼(0.54·신규)'],
+['요일 유형','압구정=평일형, 연희=강한 주말형, 방배=평탄형 (장기는 주말 운영 시작 초기라 해석 보류)'],
+['시간대 특수성','방배=점심·저녁 양봉형 / 압구정=17시 늦은오후 피크 / 연희=오후 집중·오전 전무 / 장기=낮시간 가족 장보기형'],
+['에그타르트 의존','연희76%>압구정72%>방배62%>장기46%'],
+['채널','압구정15%>장기7%>연희0.7%>방배0% — 전 지점 매장 중심']];
+let ch='<tr><th class="l">항목</th><th class="l">지점 비교 (데이터에서 보이는 사실)</th></tr>';
+cmp.forEach(r=>ch+=`<tr><td class="l"><b>${r[0]}</b></td><td class="l">${r[1]}</td></tr>`);
+document.getElementById('cmptable').innerHTML=ch;
+
+const og=DATA.overall_group;const ogl=['에그타르트','생란/계란','구운란','포장재','기타'];
+new Chart(p_overall,{type:'doughnut',data:{labels:ogl.map(g=>g+' '+og[g].매출+'%'),datasets:[{data:ogl.map(g=>og[g].매출),backgroundColor:['#e63946','#2a9d8f','#e9c46a','#adb5bd','#6c757d']}]},options:{plugins:{legend:{position:'right'}}}});
+const gl=['에그타르트','생란/계란','구운란','포장재','기타'];const gc=['#e63946','#2a9d8f','#e9c46a','#adb5bd','#6c757d'];
+new Chart(p_storemix,{type:'bar',data:{labels:S,datasets:gl.map((g,i)=>({label:g,data:S.map(s=>DATA.groupmix[s][g].매출),backgroundColor:gc[i]}))},options:{plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,max:100,title:{display:true,text:'매출 %'}}}}});
+const tg=document.getElementById('top10grid');
+S.forEach(st=>{const t=DATA.top10[st];
+ let rows=t.map((x,i)=>`<tr><td>${i+1}</td><td class="l">${x.상품}</td><td>${x.수량.toLocaleString()}</td></tr>`).join('');
+ tg.innerHTML+=`<div><h3><span class="chip c-${st}">${st}</span></h3><table><tr><th>#</th><th class="l">상품</th><th>판매수량</th></tr>${rows}</table></div>`;});
+
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+ document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('on'));
+ document.getElementById(b.dataset.tab).classList.add('on');
+ if(b.dataset.tab=='profile'&&!document.querySelector('#profbody').innerHTML.trim())renderProfile('방배점');
+});
+renderProfile('방배점');
+</script></body></html>
